@@ -7,10 +7,12 @@ import { StaticParamList } from '@react-navigation/core';
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Home',
   screens: {
-    Home: HomeScreen,
+    Home: {
+      screen: HomeScreen,
+    },
     Details: DetailsScreen,
-  }
-})
+  },
+});
 
 export const Navigation = createStaticNavigation(RootStack);
 

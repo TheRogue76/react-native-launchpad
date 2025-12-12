@@ -1,15 +1,19 @@
-import { CurrencyFormatter, CurrencyFormatterImpl } from '../../libs/StringLibs/CurrencyFormatter.ts';
+import { type CurrencyFormatter, currencyFormatterSI } from '../../libs/StringLibs';
+import { injectable, inject } from '@inversifyjs/core';
 
 export interface OrderRepo {
   latestOrder(): string;
 }
 
-export class OrderRepoImpl implements OrderRepo {
-  readonly formatter: CurrencyFormatter;
-  constructor(private currencyFormatter: CurrencyFormatter) {
-    this.formatter = currencyFormatter;
-  }
+@injectable()
+class OrderRepoImpl implements OrderRepo {
+  constructor(
+    @inject(currencyFormatterSI)
+    private readonly currencyFormatter: CurrencyFormatter,
+  ) {}
   latestOrder(): string {
-    return this.formatter.format(1234);
+    return this.currencyFormatter.format(1234);
   }
 }
+
+export { OrderRepoImpl };
