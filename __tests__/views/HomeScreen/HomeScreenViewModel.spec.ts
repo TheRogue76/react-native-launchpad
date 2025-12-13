@@ -1,7 +1,10 @@
 import { mock } from 'jest-mock-extended';
 import { TicketRepo } from '../../../src/repos/TicketRepo';
 import { Navigation } from '../../../src/Navigation.tsx';
-import { HomeScreenViewModel } from '../../../src/views/HomeScreen/HomeScreenViewModel.ts';
+import {
+  HomeScreenViewModel,
+  Loaded,
+} from '../../../src/views/HomeScreen/HomeScreenViewModel.ts';
 
 describe('HomeScreenViewModel', () => {
   const ticketRepo = mock<TicketRepo>()
@@ -10,14 +13,20 @@ describe('HomeScreenViewModel', () => {
   function createHomeScreenViewModel() {
     return new HomeScreenViewModel(ticketRepo, navigation);
   }
-  test('onAppear we call latest item', () => {
+  test('when the viewModel is created it starts with a loading screen', () => {
     // Given
     const viewModel = createHomeScreenViewModel();
-    ticketRepo.latestItem.mockImplementation(() => '123')
+    expect(viewModel.state.type).toBe('loading')
+  })
+
+  test('onAppear we update the counter', () => {
+    // Given
+    const viewModel = createHomeScreenViewModel();
     // When
     viewModel.onAppear()
     // Then
-    expect(ticketRepo.latestItem).toHaveBeenCalledTimes(1)
+    expect(viewModel.state.type).toBe('loaded')
+    expect((viewModel.state as Loaded).data.counter).toBe("1")
   })
 
   test('onButtonPress we navigate to details', () => {
@@ -25,8 +34,10 @@ describe('HomeScreenViewModel', () => {
     const viewModel = createHomeScreenViewModel();
     navigation.navigateToDetails.mockImplementation(() => {})
     // When
-    viewModel.onButtonPressed()
+    viewModel.onButtonPressed();
     // Then
-    expect(navigation.navigateToDetails).toHaveBeenCalledTimes(1)
+    expect(viewModel.state.type).toBe('loaded');
+    expect((viewModel.state as Loaded).data.counter).toBe('1');
+    expect(navigation.navigateToDetails).toHaveBeenCalledTimes(1);
   })
 })

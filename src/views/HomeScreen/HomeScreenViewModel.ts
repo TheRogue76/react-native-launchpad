@@ -3,25 +3,37 @@ import { type TicketRepo, ticketRepoSI } from '../../repos/TicketRepo';
 import { type Navigation, navigationSI } from '../../Navigation.tsx';
 import { makeAutoObservable } from 'mobx';
 
+type State = Loading | Error | Loaded;
+type Loading = { type: 'loading' };
+type Error = { type: 'error' };
+type Loaded = { type: 'loaded'; data: { counter: string } };
+export type { Loading, Error, Loaded };
+
 @injectable()
 export class HomeScreenViewModel {
-  counter = 0
+  state: State = { type: 'loading' };
+  private counter = 0;
   constructor(
     @inject(ticketRepoSI)
-    private readonly orderRepo: TicketRepo,
+    private readonly ticketRepo: TicketRepo,
     @inject(navigationSI)
     private readonly navigation: Navigation,
   ) {
-    makeAutoObservable(this)
+    makeAutoObservable(this);
   }
 
   onAppear() {
-    console.log(this.orderRepo.latestItem());
-    this.counter++;
+    this.state = {
+      type: 'loaded',
+      data: { counter: (++this.counter).toString() },
+    };
   }
 
   onButtonPressed() {
+    this.state = {
+      type: 'loaded',
+      data: { counter: (++this.counter).toString() },
+    };
     this.navigation.navigateToDetails()
-    this.counter++;
   }
 }
