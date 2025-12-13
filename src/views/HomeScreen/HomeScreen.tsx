@@ -1,7 +1,7 @@
-import { Button, Text, View } from 'react-native';
 import { container } from '../../libs/Core/DI.ts';
 import { HomeScreenViewModel } from './HomeScreenViewModel.ts';
 import { useEffect } from 'react';
+import {HomeScreenContent} from "./HomeScreenContent.tsx";
 
 export const HomeScreen = () => {
   const viewModel = container.get(HomeScreenViewModel, {autobind: true})
@@ -10,15 +10,5 @@ export const HomeScreen = () => {
     viewModel.onAppear()
   }, [viewModel]);
 
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => {
-          viewModel.onButtonPressed()
-        }}
-      />
-    </View>
-  );
+  return <HomeScreenContent viewModel={viewModel} />;
 }
