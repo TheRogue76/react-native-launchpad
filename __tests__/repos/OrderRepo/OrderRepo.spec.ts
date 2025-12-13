@@ -1,9 +1,9 @@
 import { mock } from 'jest-mock-extended';
-import { CurrencyFormatter } from '../../src/libs/StringLibs/CurrencyFormatter.ts';
-import { OrderRepoImpl } from '../../src/repos/OrderRepo/OrderRepo.ts';
+import { CurrencyFormatter } from '../../../src/libs/StringLibs';
+import { OrderRepoImpl } from '../../../src/repos/OrderRepo/OrderRepo.ts';
 
 describe('OrderRepo tests', () => {
-  let formatter = mock<CurrencyFormatter>();
+  const formatter = mock<CurrencyFormatter>();
 
   function createOrderRepo() {
     return new OrderRepoImpl(formatter);

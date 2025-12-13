@@ -5,10 +5,8 @@ export interface CurrencyFormatter {
 }
 
 @injectable()
-class CurrencyFormatterImpl implements CurrencyFormatter {
+export class CurrencyFormatterImpl implements CurrencyFormatter {
   format(number: number): string {
     return number.toString();
   }
 }
-
-export { CurrencyFormatterImpl }

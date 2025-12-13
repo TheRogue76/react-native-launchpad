@@ -1,11 +1,11 @@
-import { Navigation } from './Navigation.tsx';
+import { NavComponent } from './Navigation.tsx';
 
 /**
  * Put providers here if needed
  */
 function App() {
   return (
-      <Navigation />
+      <NavComponent />
   );
 }
 

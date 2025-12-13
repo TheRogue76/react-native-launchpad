@@ -1,11 +1,9 @@
 import { Button, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
 import { container } from '../../libs/Core/DI.ts';
 import { homeScreenViewModelSI } from './module.ts';
 import { useEffect } from 'react';
 
 export const HomeScreen = () => {
-  const navigation = useNavigation();
   const viewModel = container.get(homeScreenViewModelSI)
 
   useEffect(() => {
@@ -18,7 +16,7 @@ export const HomeScreen = () => {
       <Button
         title="Go to Details"
         onPress={() => {
-          navigation.navigate('Details');
+          viewModel.onButtonPressed()
         }}
       />
     </View>

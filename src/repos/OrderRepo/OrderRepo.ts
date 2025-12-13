@@ -6,7 +6,7 @@ export interface OrderRepo {
 }
 
 @injectable()
-class OrderRepoImpl implements OrderRepo {
+export class OrderRepoImpl implements OrderRepo {
   constructor(
     @inject(currencyFormatterSI)
     private readonly currencyFormatter: CurrencyFormatter,
@@ -15,5 +15,3 @@ class OrderRepoImpl implements OrderRepo {
     return this.currencyFormatter.format(1234);
   }
 }
-
-export { OrderRepoImpl };
