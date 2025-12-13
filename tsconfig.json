@@ -1,6 +1,7 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
+    "target": "ESNext",
     "types": ["jest", "reflect-metadata"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true

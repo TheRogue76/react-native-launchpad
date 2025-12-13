@@ -1,10 +1,10 @@
 import { Button, Text, View } from 'react-native';
 import { container } from '../../libs/Core/DI.ts';
-import { homeScreenViewModelSI } from './module.ts';
+import { HomeScreenViewModel } from './HomeScreenViewModel.ts';
 import { useEffect } from 'react';
 
 export const HomeScreen = () => {
-  const viewModel = container.get(homeScreenViewModelSI)
+  const viewModel = container.get(HomeScreenViewModel, {autobind: true})
 
   useEffect(() => {
     viewModel.onAppear()

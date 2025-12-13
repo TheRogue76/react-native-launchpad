@@ -5,6 +5,7 @@ const config = {
     'node_modules/(?!(@react-native|react-native|@react-navigation)/)',
   ],
   setupFilesAfterEnv: ['./setup-jest.js'],
+  setupFiles: ['reflect-metadata'],
 };
 
 module.exports = config;
