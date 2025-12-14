@@ -59,6 +59,7 @@ declare global {
 export interface Navigation {
   goBack: () => void;
   navigate: typeof navigationRef.navigate;
+  reset: typeof navigationRef.reset;
 }
 
 @injectable()
@@ -67,8 +68,16 @@ class NavigationImpl implements Navigation {
     navigationRef?.goBack();
   }
 
-  navigate(...args: Parameters<typeof navigationRef.navigate>) {
+  navigate(
+    ...args: Parameters<typeof navigationRef.navigate>
+  ): ReturnType<typeof navigationRef.navigate> {
     navigationRef?.navigate(...args);
+  }
+
+  reset(
+    ...args: Parameters<typeof navigationRef.reset>
+  ): ReturnType<typeof navigationRef.reset> {
+    navigationRef?.reset(...args)
   }
 }
 

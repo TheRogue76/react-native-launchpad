@@ -16,7 +16,7 @@ export class InitializationScreenViewModel {
     // and once ready, decide where to navigate
     // For this example it just wastes a second
     setTimeout(() => {
-      this.navigation.navigate('TabbedNavigator');
+      this.navigation.reset({index: 0, routes: [{name: 'TabbedNavigator'}]});
     }, 1000);
   }
 }
