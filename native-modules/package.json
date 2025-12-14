@@ -1,0 +1,25 @@
+{
+  "name": "native-modules",
+  "version": "0.0.0",
+  "description": "Native Modules of this app",
+  "main": "src/index",
+  "codegenConfig": {
+    "name": "NativeModulesSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
+  },
+  "author": "Parsa Nasirimehr <p.nasirimehr@gmail.com> (https://github.com/TheRogue76)",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/TheRogue76/native-modules#readme",
+  "create-react-native-library": {
+    "type": "nitro-module",
+    "languages": "kotlin-swift",
+    "tools": [
+      "eslint",
+      "jest",
+      "lefthook",
+      "release-it"
+    ],
+    "version": "0.56.0"
+  }
+}

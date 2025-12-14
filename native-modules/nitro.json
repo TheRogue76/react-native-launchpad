@@ -1,0 +1,17 @@
+{
+  "cxxNamespace": ["nativemodules"],
+  "ios": {
+    "iosModuleName": "NativeModules"
+  },
+  "android": {
+    "androidNamespace": ["nativemodules"],
+    "androidCxxLibName": "nativemodules"
+  },
+  "autolinking": {
+    "NativeModules": {
+      "swift": "NativeModules",
+      "kotlin": "NativeModules"
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
