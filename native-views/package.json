@@ -1,0 +1,25 @@
+{
+  "name": "native-views",
+  "version": "0.0.0",
+  "description": "Native views of this app",
+  "main": "src/index",
+  "codegenConfig": {
+    "name": "NativeViewsViewSpec",
+    "type": "all",
+    "jsSrcsDir": "src"
+  },
+  "author": "Parsa Nasirimehr <parsa.nasirimehr@umain.com> (https://github.com/TheRogue76)",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/TheRogue76/native-views#readme",
+  "create-react-native-library": {
+    "type": "nitro-view",
+    "languages": "kotlin-swift",
+    "tools": [
+      "eslint",
+      "jest",
+      "lefthook",
+      "release-it"
+    ],
+    "version": "0.56.0"
+  }
+}

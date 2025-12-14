@@ -1,0 +1,10 @@
+{
+  "uiViewClassName": "NativeViews",
+  "supportsRawText": false,
+  "bubblingEventTypes": {},
+  "directEventTypes": {},
+  "validAttributes": {
+    "color": true,
+    "hybridRef": true
+  }
+}

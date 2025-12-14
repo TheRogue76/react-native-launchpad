@@ -1,0 +1,17 @@
+{
+  "cxxNamespace": ["nativeviews"],
+  "ios": {
+    "iosModuleName": "NativeViews"
+  },
+  "android": {
+    "androidNamespace": ["nativeviews"],
+    "androidCxxLibName": "nativeviews"
+  },
+  "autolinking": {
+    "NativeViews": {
+      "swift": "HybridNativeViews",
+      "kotlin": "HybridNativeViews"
+    }
+  },
+  "ignorePaths": ["node_modules"]
+}
