@@ -36,7 +36,7 @@ echo ""
 
 # Get bundle identifiers (optional)
 read -p "Enter iOS bundle identifier (optional, e.g., com.yourcompany.${NEW_NAME}): " IOS_BUNDLE_ID
-read -p "Enter Android bundle identifier (optional, e.g., com.yourcompany.${NEW_NAME,,}): " ANDROID_BUNDLE_ID
+read -p "Enter Android bundle identifier (optional, e.g., com.yourcompany.$(echo "$NEW_NAME" | tr '[:upper:]' '[:lower:]')): " ANDROID_BUNDLE_ID
 
 echo ""
 echo "======================================"
