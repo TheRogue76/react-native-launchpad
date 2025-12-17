@@ -46,7 +46,7 @@ The script will prompt you for:
 If you don't provide custom bundle identifiers, the script will use sensible defaults based on your project name.
 
 After running the script, remember to:
-1. Install iOS CocoaPods dependencies: `cd ios && pod install`
+1. Install iOS CocoaPods dependencies: `yarn ios:pods`
 2. Clean build folders if needed:
    - iOS: `cd ios && xcodebuild clean`
    - Android: `cd android && ./gradlew clean`
