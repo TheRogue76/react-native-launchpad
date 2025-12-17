@@ -1,7 +1,8 @@
 # Introduction
 
-React Native Launchpad is an opinionated, batteries included template for building scalable testable apps
-The guiding principals for this template are as follows:
+React Native Launchpad is an opinionated, batteries included template for building scalable testable apps.
+
+The guiding principles for this template are as follows:
 - Logic should be as easy to test as it is to develop
 - React should empower the native, not try to abstract it away
 - Avoid writing logic in hooks, write them in classes, use DI when necessary to provide access to that logic to the needed viewmodels.
@@ -9,17 +10,17 @@ The guiding principals for this template are as follows:
 
 The general architecture of this template and how it is supposed to be used can be best described as follows:
 
-- Libs: Atomic pieces of logic, say your currency formatter, your analytics implementation, you network interceptors, etc
-- Repos: Domain logic. This is where the bulk of your apps logic exists. Each repo is in charge of a specific domain, like your user repo, your initialization repo, your in app purchase repo, etc. Stuff like caching should be handled here
+- Libs: Atomic pieces of logic, say your currency formatter, your analytics implementation, your network interceptors, etc
+- Repos: Domain logic. This is where the bulk of your app's logic exists. Each repo is in charge of a specific domain, like your user repo, your initialization repo, your in-app purchase repo, etc. Stuff like caching should be handled here
 - Views: The UI logic for each screen, built from the data coming from the repos
 
 ![layers.png](layers.png)
 
-*Important to note*: Layers can not have horizantal dependencies. Libs can not depend on each other, repos can not rely on each other, and view models can not rely on each other. Otherwise we will have cyclical dependencies
+*Important to note*: Layers can not have horizontal dependencies. Libs can not depend on each other, repos can not rely on each other, and view models can not rely on each other. Otherwise we will have cyclical dependencies
 
-For communication between the different layers, we use and `inversify` container as a service discovery layer.
+For communication between the different layers, we use an `inversify` container as a service discovery layer.
 
-Each module attaches itself to the container, and declares whether it should be a singelton (like your repos and authentication logic that is shared between different pieces) or if it should be something that gets created everytime we ask for one (Say a view model)
+Each module attaches itself to the container, and declares whether it should be a singleton (like your repos and authentication logic that is shared between different pieces) or if it should be something that gets created every time we ask for one (Say a view model)
 
 The other layers can simply ask for those dependencies afterward from the container. This will make it easy to do tests and mock their dependencies.
 
@@ -112,7 +113,7 @@ For more instructions on native module setup read:
 - Modules: https://nitro.margelo.com/docs/how-to-build-a-nitro-module
 
 *IMPORTANT TO NOTE*: Any native module/view that you create, you will also need to create a mock for as well in jest.
-You can do it locally per the tests that need your native module, or you can use the global ones provided under `setup-test.js` if you don't care about their output
+You can do it locally per the tests that need your native module, or you can use the global ones provided under `setup-jest.js` if you don't care about their output
 
 ## Step 5: Running unit tests with Jest
 
