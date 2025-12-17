@@ -145,8 +145,9 @@ fi
 # Convert bundle ID to path (e.g., com.company.app -> com/company/app)
 ANDROID_PATH=$(echo "$NEW_ANDROID_PACKAGE" | tr '.' '/')
 
-# Update build.gradle
-replace_in_file "android/app/build.gradle" "$ANDROID_PACKAGE" "$NEW_ANDROID_PACKAGE"
+# Update build.gradle with specific patterns
+replace_in_file "android/app/build.gradle" "namespace \"$ANDROID_PACKAGE\"" "namespace \"$NEW_ANDROID_PACKAGE\""
+replace_in_file "android/app/build.gradle" "applicationId \"$ANDROID_PACKAGE\"" "applicationId \"$NEW_ANDROID_PACKAGE\""
 
 # Update package names in Kotlin files
 replace_in_file "android/app/src/main/java/com/awesomeproject/MainActivity.kt" "package $ANDROID_PACKAGE" "package $NEW_ANDROID_PACKAGE"
@@ -160,7 +161,7 @@ if [ -d "android/app/src/main/java/com/awesomeproject" ]; then
     # Clean up old directory structure
     rm -rf android/app/src/main/java/com/awesomeproject
     # Remove empty parent directories if they exist
-    rmdir --ignore-fail-on-non-empty android/app/src/main/java/com 2>/dev/null || true
+    rmdir android/app/src/main/java/com 2>/dev/null || true
     echo -e "${GREEN}✓${NC} Moved Android source files"
 fi
 
@@ -193,13 +194,16 @@ fi
 if [ ! -z "$IOS_BUNDLE_ID" ]; then
     echo ""
     echo "Updating iOS bundle identifier to custom value..."
+    # Replace the dynamic bundle identifier with the custom one
     replace_in_file "ios/${NEW_NAME}.xcodeproj/project.pbxproj" "org.reactjs.native.example.\$(PRODUCT_NAME:rfc1034identifier)" "$IOS_BUNDLE_ID"
 else
     echo ""
     echo "Updating iOS bundle identifier to default format..."
     # Update to match the new project name in the default format
     NEW_IOS_BUNDLE="org.reactjs.native.example.${NEW_NAME}"
-    replace_in_file "ios/${NEW_NAME}.xcodeproj/project.pbxproj" "org.reactjs.native.example.AwesomeProject" "$NEW_IOS_BUNDLE"
+    # Since PRODUCT_NAME gets replaced with the project name, we just need to ensure consistency
+    # The $(PRODUCT_NAME:rfc1034identifier) will automatically use the new project name
+    echo -e "${GREEN}✓${NC} iOS bundle identifier will use: ${NEW_IOS_BUNDLE}"
 fi
 
 # 6. Final message
