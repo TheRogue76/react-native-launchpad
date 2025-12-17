@@ -86,6 +86,10 @@ echo ""
 echo "Updating app.json..."
 replace_in_file "app.json" "AwesomeProject" "$NEW_NAME"
 
+# Update .detoxrc.js
+echo "Updating .detoxrc.js..."
+replace_in_file ".detoxrc.js" "AwesomeProject" "$NEW_NAME"
+
 # 2. Update Android files
 echo ""
 echo "Updating Android files..."
