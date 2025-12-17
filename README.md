@@ -26,9 +26,33 @@ The other layers can simply ask for those dependencies afterward from the contai
 
 # Getting Started
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) and the [Detox setup prerequisites](https://wix.github.io/Detox/docs/introduction/environment-setup#detox-prerequisites) guide before proceeding.
 
-## Step 1: Start Metro
+## Step 1: Rename the Template Project
+
+Before starting development, you should rename the template from "AwesomeProject" to your own project name.
+
+Run the rename script from the root of your project:
+
+```sh
+./scripts/rename_template.sh
+```
+
+The script will prompt you for:
+- **New project name** (required): The name for your project (e.g., `MyApp`)
+- **iOS bundle identifier** (optional): Custom iOS bundle ID (e.g., `com.yourcompany.MyApp`)
+- **Android bundle identifier** (optional): Custom Android package name (e.g., `com.yourcompany.myapp`)
+
+If you don't provide custom bundle identifiers, the script will use sensible defaults based on your project name.
+
+After running the script, remember to:
+1. Install iOS CocoaPods dependencies: `yarn ios:pods`
+2. Clean build folders if needed:
+   - iOS: `cd ios && xcodebuild clean`
+   - Android: `cd android && ./gradlew clean`
+3. Delete the scripts folder as it is no longer needed
+
+## Step 2: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
 
@@ -42,7 +66,7 @@ npm start
 yarn start
 ```
 
-## Step 2: Build and run your app
+## Step 3: Build and run your app
 
 With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
@@ -86,7 +110,7 @@ If everything is set up correctly, you should see your new app running in the An
 
 This is one way to run your app — you can also build it directly from Android Studio or Xcode.
 
-## Step 3: Modify your app
+## Step 4: Modify your app
 
 Now that you have successfully run the app, let's make changes!
 
@@ -97,7 +121,7 @@ When you want to forcefully reload, for example to reset the state of your app, 
 - **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
 - **iOS**: Press <kbd>R</kbd> in iOS Simulator.
 
-## Step 4: Add native modules and views
+## Step 5: Add native modules and views
 
 Depending on if you want to add native views (Say Webview, Lottie) or native modules (Bluetooth, SQL) you can go inside the `native-views` or the `native-modules` directories and define your interface in TypeScript.
 
@@ -115,7 +139,7 @@ For more instructions on native module setup read:
 *IMPORTANT TO NOTE*: Any native module/view that you create, you will also need to create a mock for as well in jest.
 You can do it locally per the tests that need your native module, or you can use the global ones provided under `setup-jest.js` if you don't care about their output
 
-## Step 5: Running unit tests with Jest
+## Step 6: Running unit tests with Jest
 
 This template is already setup with examples and all the necessary bits out of the box to have Unit testing working
 Simply add your test under `__tests__` folder and run:
@@ -124,7 +148,7 @@ yarn test:unit
 ```
 to validate them
 
-## Step 6: Running e2e tests with detox
+## Step 7: Running e2e tests with detox
 
 In order to run E2E tests, we first need to make one off builds. Both release and debug mode have been configured, however in the scripts we will only include cases for debug to not assume your release and archiving process
 First, add your new test under `e2e` directory
