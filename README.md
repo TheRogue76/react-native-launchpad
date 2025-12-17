@@ -26,7 +26,7 @@ The other layers can simply ask for those dependencies afterward from the contai
 
 # Getting Started
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) and the [Detox setup prerequisites](https://wix.github.io/Detox/docs/introduction/environment-setup#detox-prerequisites) guide before proceeding.
 
 ## Step 1: Rename the Template Project
 
