@@ -101,7 +101,7 @@ replace_in_file "android/app/src/main/java/com/awesomeproject/MainActivity.kt" "
 
 # Android MainApplication.kt - no content changes needed, just package name
 
-# 3. Update iOS files
+# 3. Update iOS files (before renaming directories)
 echo ""
 echo "Updating iOS files..."
 
@@ -114,8 +114,10 @@ replace_in_file "ios/Podfile" "AwesomeProject" "$NEW_NAME"
 # iOS xcworkspace
 replace_in_file "ios/AwesomeProject.xcworkspace/contents.xcworkspacedata" "AwesomeProject" "$NEW_NAME"
 
-# iOS xcscheme
-replace_in_file "ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme" "AwesomeProject" "$NEW_NAME"
+# iOS xcscheme - rename file first
+if [ -f "ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme" ]; then
+    replace_in_file "ios/AwesomeProject.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme" "AwesomeProject" "$NEW_NAME"
+fi
 
 # iOS project.pbxproj
 replace_in_file "ios/AwesomeProject.xcodeproj/project.pbxproj" "AwesomeProject" "$NEW_NAME"
@@ -126,41 +128,43 @@ replace_in_file "ios/AwesomeProject/AppDelegate.swift" "AwesomeProject" "$NEW_NA
 # iOS LaunchScreen.storyboard
 replace_in_file "ios/AwesomeProject/LaunchScreen.storyboard" "AwesomeProject" "$NEW_NAME"
 
-# 4. Update bundle identifiers if provided
+# 4. Update bundle identifiers if provided, or use defaults
+# For Android, if no custom bundle ID is provided, use com.{lowercasename}
+ANDROID_PACKAGE="com.awesomeproject"
+NEW_ANDROID_PACKAGE="com.$(echo "$NEW_NAME" | tr '[:upper:]' '[:lower:]')"
+
 if [ ! -z "$ANDROID_BUNDLE_ID" ]; then
     echo ""
-    echo "Updating Android bundle identifier..."
-    
-    # Convert bundle ID to path (e.g., com.company.app -> com/company/app)
-    ANDROID_PATH=$(echo "$ANDROID_BUNDLE_ID" | tr '.' '/')
-    
-    # Update build.gradle
-    replace_in_file "android/app/build.gradle" "com.awesomeproject" "$ANDROID_BUNDLE_ID"
-    
-    # Update package names in Kotlin files
-    replace_in_file "android/app/src/main/java/com/awesomeproject/MainActivity.kt" "package com.awesomeproject" "package $ANDROID_BUNDLE_ID"
-    replace_in_file "android/app/src/main/java/com/awesomeproject/MainApplication.kt" "package com.awesomeproject" "package $ANDROID_BUNDLE_ID"
-    
-    # Move Android source files to new package directory
-    if [ -d "android/app/src/main/java/com/awesomeproject" ]; then
-        echo "Moving Android source files to new package directory..."
-        mkdir -p "android/app/src/main/java/${ANDROID_PATH}"
-        mv android/app/src/main/java/com/awesomeproject/*.kt "android/app/src/main/java/${ANDROID_PATH}/"
-        # Clean up old directory structure
-        rm -rf android/app/src/main/java/com/awesomeproject
-        # Remove empty parent directories if they exist
-        rmdir --ignore-fail-on-non-empty android/app/src/main/java/com 2>/dev/null || true
-        echo -e "${GREEN}✓${NC} Moved Android source files"
-    fi
-fi
-
-if [ ! -z "$IOS_BUNDLE_ID" ]; then
+    echo "Updating Android bundle identifier to custom value..."
+    NEW_ANDROID_PACKAGE="$ANDROID_BUNDLE_ID"
+else
     echo ""
-    echo "Updating iOS bundle identifier..."
-    replace_in_file "ios/AwesomeProject.xcodeproj/project.pbxproj" "org.reactjs.native.example.\\\$(PRODUCT_NAME:rfc1034identifier)" "$IOS_BUNDLE_ID"
+    echo "Updating Android package name to default format..."
 fi
 
-# 5. Rename iOS directories and files
+# Convert bundle ID to path (e.g., com.company.app -> com/company/app)
+ANDROID_PATH=$(echo "$NEW_ANDROID_PACKAGE" | tr '.' '/')
+
+# Update build.gradle
+replace_in_file "android/app/build.gradle" "$ANDROID_PACKAGE" "$NEW_ANDROID_PACKAGE"
+
+# Update package names in Kotlin files
+replace_in_file "android/app/src/main/java/com/awesomeproject/MainActivity.kt" "package $ANDROID_PACKAGE" "package $NEW_ANDROID_PACKAGE"
+replace_in_file "android/app/src/main/java/com/awesomeproject/MainApplication.kt" "package $ANDROID_PACKAGE" "package $NEW_ANDROID_PACKAGE"
+
+# Move Android source files to new package directory
+if [ -d "android/app/src/main/java/com/awesomeproject" ]; then
+    echo "Moving Android source files to new package directory..."
+    mkdir -p "android/app/src/main/java/${ANDROID_PATH}"
+    mv android/app/src/main/java/com/awesomeproject/*.kt "android/app/src/main/java/${ANDROID_PATH}/"
+    # Clean up old directory structure
+    rm -rf android/app/src/main/java/com/awesomeproject
+    # Remove empty parent directories if they exist
+    rmdir --ignore-fail-on-non-empty android/app/src/main/java/com 2>/dev/null || true
+    echo -e "${GREEN}✓${NC} Moved Android source files"
+fi
+
+# 5. Rename iOS directories and files first (before updating bundle ID)
 echo ""
 echo "Renaming iOS directories and files..."
 
@@ -177,6 +181,25 @@ fi
 if [ -d "ios/AwesomeProject.xcworkspace" ]; then
     mv "ios/AwesomeProject.xcworkspace" "ios/${NEW_NAME}.xcworkspace"
     echo -e "${GREEN}✓${NC} Renamed ios/AwesomeProject.xcworkspace -> ios/${NEW_NAME}.xcworkspace"
+fi
+
+# Rename xcscheme file
+if [ -f "ios/${NEW_NAME}.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme" ]; then
+    mv "ios/${NEW_NAME}.xcodeproj/xcshareddata/xcschemes/AwesomeProject.xcscheme" "ios/${NEW_NAME}.xcodeproj/xcshareddata/xcschemes/${NEW_NAME}.xcscheme"
+    echo -e "${GREEN}✓${NC} Renamed AwesomeProject.xcscheme -> ${NEW_NAME}.xcscheme"
+fi
+
+# Update iOS bundle identifier
+if [ ! -z "$IOS_BUNDLE_ID" ]; then
+    echo ""
+    echo "Updating iOS bundle identifier to custom value..."
+    replace_in_file "ios/${NEW_NAME}.xcodeproj/project.pbxproj" "org.reactjs.native.example.\$(PRODUCT_NAME:rfc1034identifier)" "$IOS_BUNDLE_ID"
+else
+    echo ""
+    echo "Updating iOS bundle identifier to default format..."
+    # Update to match the new project name in the default format
+    NEW_IOS_BUNDLE="org.reactjs.native.example.${NEW_NAME}"
+    replace_in_file "ios/${NEW_NAME}.xcodeproj/project.pbxproj" "org.reactjs.native.example.AwesomeProject" "$NEW_IOS_BUNDLE"
 fi
 
 # 6. Final message
