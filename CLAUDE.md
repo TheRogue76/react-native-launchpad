@@ -81,6 +81,91 @@ MobX is configured in strict mode (`src/App.tsx:3-10`) to enforce best practices
 - `reactionRequiresObservable: true`
 - `observableRequiresReaction: true`
 
+## Networking and Data Fetching
+
+### Network Layer (`src/libs/NetworkingLib/`)
+
+The template includes a type-safe networking client with interceptor support:
+
+- **NetworkClient**: Generic fetch wrapper with Zod schema validation
+- **Request/Response Interceptors**: Add headers, logging, auth tokens, etc.
+- **Type Safety**: All responses validated against Zod schemas at runtime
+
+Example usage:
+```typescript
+await networkClient.request(
+  'https://api.example.com/data',
+  'GET',
+  MyDataSchema, // Zod schema
+  { headers: { 'Authorization': 'Bearer token' } }
+);
+```
+
+### Remote Data Sources Pattern
+
+Each repo can have one or more **RemoteDataSource** classes for API communication:
+
+**Structure**:
+- `RemoteDataSource` is **internal** to the repo (not exported)
+- Define Zod schemas for API responses (e.g., `GetTicketResponseSchema`)
+- Inject `NetworkClient` into the data source
+- Data sources are registered as singletons in the DI container
+
+**Example**: `TicketRemoteDataSource` (`src/repos/TicketRepo/`)
+```typescript
+@injectable()
+export class TicketRemoteDataSourceImpl implements TicketRemoteDataSource {
+  constructor(
+    @inject(networkClientSI) private readonly networkClient: NetworkClient,
+  ) {}
+
+  async fetchTickets(): Promise<GetTicketResponse[]> {
+    return this.networkClient.request(
+      `${this.baseUrl}/tickets`,
+      'GET',
+      GetTicketListResponseSchema,
+    );
+  }
+}
+```
+
+### Domain Models and Mappers
+
+**Critical Pattern**: Separate API response types from domain models.
+
+**Structure**:
+- API responses: `GetXResponse` types (from RemoteDataSource)
+- Domain models: `X` types in `Models/` folder
+- Mapper functions: Convert API → Domain in `Models/X.ts`
+- Only domain models are exported from repos
+
+**Example**: `src/repos/TicketRepo/Models/Ticket.ts`
+```typescript
+export interface Ticket {
+  id: string;        // Converted from number
+  title: string;
+  isCompleted: boolean;  // Renamed from 'completed'
+}
+
+export function mapTicketResponseToTicket(response: GetTicketResponse): Ticket {
+  return {
+    id: response.id.toString(),
+    title: response.title,
+    isCompleted: response.completed,
+  };
+}
+```
+
+**In the Repo**:
+```typescript
+async fetchTickets(): Promise<Ticket[]> {
+  const apiResponse = await this.ticketRemoteDataSource.fetchTickets();
+  return apiResponse.map(mapTicketResponseToTicket);
+}
+```
+
+**Why this matters**: API structures change, but domain models stay stable. Repos handle the translation layer.
+
 ## Native Modules & Views with Nitro
 
 This project uses `react-native-nitro-modules` for native code:

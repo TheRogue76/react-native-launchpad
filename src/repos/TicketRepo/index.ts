@@ -1,2 +1,3 @@
-export type {TicketRepo} from './TicketRepo.ts'
-export {ticketRepoSI} from './module'
+export type { TicketRepo } from './TicketRepo.ts'
+export type { Ticket } from './Models/Ticket.ts';
+export { ticketRepoSI } from './module';
