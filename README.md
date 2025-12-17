@@ -14,7 +14,7 @@ The general architecture of this template and how it is supposed to be used can 
 - Repos: Domain logic. This is where the bulk of your app's logic exists. Each repo is in charge of a specific domain, like your user repo, your initialization repo, your in-app purchase repo, etc. Stuff like caching should be handled here
 - Views: The UI logic for each screen, built from the data coming from the repos
 
-![layers.png](layers.png)
+![layers.png](https://raw.githubusercontent.com/TheRogue76/react-native-launchpad/refs/heads/main/layers.png)
 
 *Important to note*: Layers can not have horizontal dependencies. Libs can not depend on each other, repos can not rely on each other, and view models can not rely on each other. Otherwise we will have cyclical dependencies
 
