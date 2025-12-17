@@ -1,5 +1,20 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+React Native Launchpad is an opinionated, batteries included template for building scalable testable apps
+The guiding principals for this template are as follows:
+- Logic should be as easy to test as it is to develop
+- React should empower the native, not try to wrap it away
+- Avoid writing logic in hooks, write them in classes, use DI when necessary to provide access to that logic to the needed viewmodels.
 
+The general architecture of this template and how it is supposed to be used can be found here: //TODO
+
+
+This template is powered by tools that the community already uses, such as:
+- [React native community CLI for the bare workflow](https://github.com/react-native-community/cli)
+- [Inversify for Dependency injection](https://github.com/inversify/monorepo)
+- [MobX for view models reactivity](https://github.com/mobxjs/mobx)
+- [React Navigation for the navigation and deep linking systems](https://github.com/react-navigation/react-navigation)
+- [Nitro modules for native views and native modules](https://github.com/mrousavy/nitro)
+- [Jest for unit testing](https://github.com/jestjs/jest)
+- [Detox for E2E testing](https://github.com/wix/Detox)
 # Getting Started
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
