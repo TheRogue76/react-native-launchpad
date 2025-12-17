@@ -50,6 +50,7 @@ After running the script, remember to:
 2. Clean build folders if needed:
    - iOS: `cd ios && xcodebuild clean`
    - Android: `cd android && ./gradlew clean`
+3. Delete the scripts folder as it is no longer needed
 
 ## Step 2: Start Metro
 
