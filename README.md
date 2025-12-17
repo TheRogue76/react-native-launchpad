@@ -63,7 +63,7 @@ bundle install
 Then, and every time you update your native dependencies, run:
 
 ```sh
-bundle exec pod install
+yarn ios:pods
 ```
 
 For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
@@ -105,6 +105,38 @@ For more instructions on native module setup read:
 
 - Views: https://nitro.margelo.com/docs/view-components
 - Modules: https://nitro.margelo.com/docs/how-to-build-a-nitro-module
+
+## Step 5: Running unit tests with Jest
+
+This template is already setup with examples and all the necessary bits out of the box to have Unit testing working
+Simply add your test under `__tests__` folder and run:
+```shell
+yarn test:unit
+```
+to validate them
+
+## Step 6: Running e2e tests with detox
+
+In order to run E2E tests, we first need to make one off builds. Both release and debug mode have been configured, however in the scripts we will only include cases for debug to not assume your release and archiving process
+First, add your new test under `e2e` directory
+
+Then, for iOS, first run:
+```shell
+yarn test:e2e:build:ios
+```
+to build the app, and with metro running (`yarn start`), you can now run the following command:
+```shell
+yarn test:e2e:run:ios
+```
+For android, the commands for building and running are:
+```shell
+yarn test:e2e:build:android
+```
+and
+```shell
+yarn test:e2e:run:android
+```
+respectively.
 
 # Learn More
 
