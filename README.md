@@ -140,7 +140,7 @@ Depending on if you want to add native views (Say Webview, Lottie) or native mod
 
 You can then run 
 ```shell
-npx nitro
+npx nitrogen
 ```
 in that directory and it will generate the respective Kotlin and Swift interfaces, that you can then use to develop your logic
 
