@@ -7,8 +7,8 @@ import { container } from '../../libs/Core/DI.ts';
 export class InitializationScreenViewModel {
   private readonly navigation: Navigation;
   constructor(navigation?: Navigation) {
-    this.navigation = navigation ?? get(navigationSI)
-    makeAutoObservable(this)
+    this.navigation = navigation ?? get(navigationSI);
+    makeAutoObservable(this);
   }
 
   onAppear() {
