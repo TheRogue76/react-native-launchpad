@@ -110,9 +110,9 @@ export class NetworkClientImpl implements NetworkClient {
       let processedError = error instanceof Error ? error : new Error(String(error));
 
       // Apply error interceptors
-      // for (const interceptor of this.responseInterceptors) {
-      //   processedError = await interceptor.onError(processedError);
-      // }
+      for (const interceptor of this.responseInterceptors) {
+        processedError = await interceptor.onError(processedError);
+      }
 
       throw processedError;
     }
