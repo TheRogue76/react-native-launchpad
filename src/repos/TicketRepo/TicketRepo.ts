@@ -14,7 +14,7 @@ export interface TicketRepo {
 
 @singleton()
 export class TicketRepoImpl implements TicketRepo {
-  private currencyFormatter: CurrencyFormatter;
+  private readonly currencyFormatter: CurrencyFormatter;
   private readonly ticketRemoteDataSource: TicketRemoteDataSource;
   constructor(currencyFormatter?: CurrencyFormatter, ticketRemoteDataSource?: TicketRemoteDataSource) {
     this.currencyFormatter = currencyFormatter ?? get(currencyFormatterSI);
