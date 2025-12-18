@@ -1,4 +1,4 @@
-import { injectable } from '@inversifyjs/core';
+import { singleton } from 'launchpad-dependency-injection';
 import { z } from 'zod';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -36,22 +36,22 @@ export interface NetworkClient {
     },
   ): Promise<T>;
 
-  addRequestInterceptor(interceptor: RequestInterceptor): void;
-  addResponseInterceptor(interceptor: ResponseInterceptor): void;
+  // addRequestInterceptor(interceptor: RequestInterceptor): void;
+  // addResponseInterceptor(interceptor: ResponseInterceptor): void;
 }
 
-@injectable()
+@singleton()
 export class NetworkClientImpl implements NetworkClient {
-  private requestInterceptors: RequestInterceptor[] = [];
-  private responseInterceptors: ResponseInterceptor[] = [];
-
-  addRequestInterceptor(interceptor: RequestInterceptor): void {
-    this.requestInterceptors.push(interceptor);
-  }
-
-  addResponseInterceptor(interceptor: ResponseInterceptor): void {
-    this.responseInterceptors.push(interceptor);
-  }
+  // private requestInterceptors: RequestInterceptor[] = [];
+  // private responseInterceptors: ResponseInterceptor[] = [];
+  //
+  // addRequestInterceptor(interceptor: RequestInterceptor): void {
+  //   this.requestInterceptors.push(interceptor);
+  // }
+  //
+  // addResponseInterceptor(interceptor: ResponseInterceptor): void {
+  //   this.responseInterceptors.push(interceptor);
+  // }
 
   async request<T>(
     url: string,
@@ -73,9 +73,9 @@ export class NetworkClientImpl implements NetworkClient {
     };
 
     // Apply request interceptors
-    for (const interceptor of this.requestInterceptors) {
-      config = await interceptor.onRequest(config);
-    }
+    // for (const interceptor of this.requestInterceptors) {
+    //   config = await interceptor.onRequest(config);
+    // }
 
     try {
       const response = await fetch(config.url, {
@@ -100,18 +100,18 @@ export class NetworkClientImpl implements NetworkClient {
       };
 
       // Apply response interceptors
-      for (const interceptor of this.responseInterceptors) {
-        responseData = await interceptor.onResponse(responseData);
-      }
+      // for (const interceptor of this.responseInterceptors) {
+      //   responseData = await interceptor.onResponse(responseData);
+      // }
 
       return responseData.data;
     } catch (error) {
       let processedError = error instanceof Error ? error : new Error(String(error));
 
       // Apply error interceptors
-      for (const interceptor of this.responseInterceptors) {
-        processedError = await interceptor.onError(processedError);
-      }
+      // for (const interceptor of this.responseInterceptors) {
+      //   processedError = await interceptor.onError(processedError);
+      // }
 
       throw processedError;
     }

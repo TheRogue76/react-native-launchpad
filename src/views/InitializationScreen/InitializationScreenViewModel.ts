@@ -1,13 +1,12 @@
-import { inject, injectable } from '@inversifyjs/core';
+import { transient, get } from 'launchpad-dependency-injection';
 import { type Navigation, navigationSI } from '../../Navigation.tsx';
 import { makeAutoObservable } from 'mobx';
 
-@injectable()
+@transient()
 export class InitializationScreenViewModel {
-  constructor(
-    @inject(navigationSI)
-    private readonly navigation: Navigation
-  ) {
+  private readonly navigation: Navigation;
+  constructor(navigation?: Navigation) {
+    this.navigation = navigation ?? get(navigationSI)
     makeAutoObservable(this)
   }
 

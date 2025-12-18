@@ -1,10 +1,10 @@
-import { injectable } from '@inversifyjs/core';
+import { singleton } from 'launchpad-dependency-injection';
 
 export interface CurrencyFormatter {
   format(number: number): string
 }
 
-@injectable()
+@singleton()
 export class CurrencyFormatterImpl implements CurrencyFormatter {
   format(number: number): string {
     return number.toString();

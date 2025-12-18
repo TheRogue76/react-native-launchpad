@@ -5,9 +5,10 @@ import {HomeScreenContent} from "./HomeScreenContent.tsx";
 import { ActivityIndicator, Text } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { useFocusEffect } from '@react-navigation/core';
+import { homeViewModelSI } from './module.ts';
 
 export const HomeScreen = () => {
-  const viewModel = container.get(HomeScreenViewModel, { autobind: true });
+  const viewModel = container.resolve(homeViewModelSI)
 
   return <HomeScreenBase viewModel={viewModel} />
 };

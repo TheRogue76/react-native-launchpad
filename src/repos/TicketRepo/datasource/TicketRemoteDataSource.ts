@@ -1,4 +1,4 @@
-import { inject, injectable } from '@inversifyjs/core';
+import { get, singleton } from 'launchpad-dependency-injection';
 import {
   type NetworkClient,
   networkClientSI,
@@ -12,15 +12,14 @@ export interface TicketRemoteDataSource {
   fetchTickets(): Promise<GetTicketResponse[]>;
 }
 
-@injectable()
+@singleton()
 export class TicketRemoteDataSourceImpl implements TicketRemoteDataSource {
-  // Dummy endpoint - using JSONPlaceholder todos as example tickets
   private readonly baseUrl = 'https://jsonplaceholder.typicode.com';
+  private readonly networkClient: NetworkClient;
 
-  constructor(
-    @inject(networkClientSI)
-    private readonly networkClient: NetworkClient,
-  ) {}
+  constructor(networkClient?: NetworkClient) {
+    this.networkClient = networkClient ?? get(networkClientSI);
+  }
 
   async fetchTickets(): Promise<GetTicketResponse[]> {
     return this.networkClient.request(

@@ -1,11 +1,7 @@
 import { container } from '../Core/DI';
 import { NetworkClient, NetworkClientImpl } from './NetworkClient';
-import { ServiceIdentifier } from '@inversifyjs/common';
+import { createToken } from 'launchpad-dependency-injection';
 
-export const networkClientSI: ServiceIdentifier<NetworkClient> =
-  Symbol.for('NetworkClient');
+export const networkClientSI = createToken<NetworkClient>('NetworkClient');
 
-container
-  .bind<NetworkClient>(networkClientSI)
-  .to(NetworkClientImpl)
-  .inSingletonScope();
+container.register(networkClientSI, NetworkClientImpl)

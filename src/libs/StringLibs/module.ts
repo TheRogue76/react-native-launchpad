@@ -3,8 +3,8 @@ import {
   CurrencyFormatter,
   CurrencyFormatterImpl,
 } from './CurrencyFormatter.ts';
-import { ServiceIdentifier } from '@inversifyjs/common';
+import { createToken } from 'launchpad-dependency-injection';
 
-export const currencyFormatterSI: ServiceIdentifier<CurrencyFormatter> = Symbol.for('CurrencyFormatter');
+export const currencyFormatterSI = createToken<CurrencyFormatter>('CurrencyFormatter');
 
-container.bind<CurrencyFormatter>(currencyFormatterSI).to(CurrencyFormatterImpl).inSingletonScope()
+container.register(currencyFormatterSI, CurrencyFormatterImpl)

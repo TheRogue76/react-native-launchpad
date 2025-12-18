@@ -1,18 +1,15 @@
 import { container } from '../../libs/Core/DI.ts';
 import { TicketRepo, TicketRepoImpl } from './TicketRepo.ts';
-import { ServiceIdentifier } from '@inversifyjs/common';
+import { createToken } from 'launchpad-dependency-injection';
 import {
   TicketRemoteDataSource,
   TicketRemoteDataSourceImpl,
 } from './datasource/TicketRemoteDataSource.ts';
 
-export const ticketRepoSI: ServiceIdentifier<TicketRepo> = Symbol.for('ticketRepo')
-export const ticketRemoteDataSourceSI: ServiceIdentifier<TicketRemoteDataSource> =
-  Symbol.for('TicketRemoteDataSource');
 
-container.bind<TicketRepo>(ticketRepoSI).to(TicketRepoImpl).inSingletonScope()
+export const ticketRemoteDataSourceSI = createToken<TicketRemoteDataSource>('TicketRemoteDataSource');
+container.register(ticketRemoteDataSourceSI, TicketRemoteDataSourceImpl);
 
-container
-  .bind<TicketRemoteDataSource>(ticketRemoteDataSourceSI)
-  .to(TicketRemoteDataSourceImpl)
-  .inSingletonScope();
+export const ticketRepoSI = createToken<TicketRepo>('ticketRepo')
+
+container.register(ticketRepoSI, TicketRepoImpl);

@@ -1,4 +1,9 @@
 import { container } from '../../libs/Core/DI.ts';
 import { InitializationScreenViewModel } from './InitializationScreenViewModel.ts';
+import { createToken } from 'launchpad-dependency-injection';
 
-container.bind(InitializationScreenViewModel).toSelf().inTransientScope()
+export const initializationViewModelSI = createToken<InitializationScreenViewModel>(
+  'InitializationScreenViewModel',
+);
+
+container.register(initializationViewModelSI, InitializationScreenViewModel);
