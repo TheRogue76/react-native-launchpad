@@ -17,8 +17,8 @@ export class TicketRepoImpl implements TicketRepo {
   private currencyFormatter: CurrencyFormatter;
   private readonly ticketRemoteDataSource: TicketRemoteDataSource;
   constructor(currencyFormatter?: CurrencyFormatter, ticketRemoteDataSource?: TicketRemoteDataSource) {
-    this.currencyFormatter = currencyFormatter ?? get(currencyFormatterSI)
-    this.ticketRemoteDataSource = ticketRemoteDataSource ?? get(ticketRemoteDataSourceSI)
+    this.currencyFormatter = currencyFormatter ?? get(currencyFormatterSI);
+    this.ticketRemoteDataSource = ticketRemoteDataSource ?? get(ticketRemoteDataSourceSI);
   }
 
   latestItem(): string {
